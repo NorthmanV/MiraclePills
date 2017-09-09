@@ -12,6 +12,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 
     @IBOutlet weak var statePicker: UIPickerView!
     @IBOutlet weak var statePickerButton: UIButton!
+    @IBOutlet weak var countryLabel: UILabel!
+    @IBOutlet weak var countryTextField: UITextField!
+    @IBOutlet weak var zipCodeLabel: UILabel!
+    @IBOutlet weak var zipCodeTextField: UITextField!
+    @IBOutlet weak var successView: UIImageView!
+    var vanishViews = [UIView]()
     
     let states = ["Alaska", "Arkansas", "Alabama", "California", "Maine", "New York"]
     
@@ -19,6 +25,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         super.viewDidLoad()
         statePicker.dataSource = self
         statePicker.delegate = self
+        self.vanishViews = [statePicker, countryLabel, countryTextField, zipCodeLabel, zipCodeTextField]
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,10 +33,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         // Dispose of any resources that can be recreated.
     }
 
+    func changeHiddenStatus(array: [UIView]) {
+        for view in array {
+            view.isHidden = !view.isHidden
+        }
+    }
+    
     @IBAction func stateButtonPressed(_ sender: UIButton) {
         
-        statePicker.isHidden = false
-        
+        changeHiddenStatus(array: self.vanishViews)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -46,10 +58,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         statePickerButton.setTitle(states[row], for: UIControlState.normal)
-        statePicker.isHidden = true
+        //statePicker.isHidden = true
     }
     
-    
+    @IBAction func buyButtonPressed(_ sender: UIButton) {
+        for view in self.view.subviews {
+            view.isHidden = true
+        }
+        successView.isHidden = false
+    }
 }
 
 
